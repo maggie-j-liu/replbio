@@ -13,7 +13,7 @@ try {
 }
 
 console.log(process.env.NODE_ENV)
-const PORT = process.env.NODE_ENV === "production" ? 3000 : 3001;
+const PORT = process.env.NODE_ENV === "development" ? 3001 : 3000;
 
 const app = express()
 
