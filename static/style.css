@@ -1,0 +1,10 @@
+h1 {
+    color: red;
+}
+
+main {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
