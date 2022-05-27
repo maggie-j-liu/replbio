@@ -1,13 +1,14 @@
 entrypoint = "index.js"
+run = "./runner.sh"
 
-[interpreter]
-command = [
-    "prybar-nodejs",
-    "-q",
-    "--ps1",
-    "\u0001\u001b[33m\u0002\u0001\u001b[00m\u0002 ",
-    "-i"
-]
+# [interpreter]
+# command = [
+#     "prybar-nodejs",
+#     "-q",
+#     "--ps1",
+#     "\u0001\u001b[33m\u0002\u0001\u001b[00m\u0002 ",
+#     "-i"
+# ]
 
 [nix]
 channel = "stable-21_11"
