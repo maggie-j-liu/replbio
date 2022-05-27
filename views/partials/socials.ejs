@@ -1,6 +1,6 @@
 <div class="socials">
 <% Object.keys(content.socials).forEach((key) => { %>
-    <a href="<%= content.socials[key] %>">
+    <a class="social-link" href="<%= content.socials[key] %>">
     <%- include(`../icons/${key}.ejs`); %>
     </a>
 <% }) %>

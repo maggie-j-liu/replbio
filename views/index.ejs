@@ -6,9 +6,9 @@
     </head>
     <body>
       <main>
-        <img class="avatar" width="192" height="192" src="<%= content.avatar %>" />
-        <h1><%= content.name %></h1>
-        <h2><%= content.bio %></h2>
+        <img class="avatar" width="176" height="176" src="<%= content.avatar %>" />
+        <h1 class="name"><%= content.name %></h1>
+        <span class="bio"><%= content.bio %></span>
         <%- include("./partials/socials.ejs"); %>
         <%- include("./partials/links.ejs"); %>
       </main>

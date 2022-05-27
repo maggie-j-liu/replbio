@@ -23,7 +23,6 @@ if (!isDev) {
   settings = getSettings()
 }
 
-console.log(isDev)
 const PORT = 3000
 
 const app = express()
@@ -33,11 +32,9 @@ app.set("view engine", "ejs")
 app.use(express.static("static"))
 
 app.get("/", (req, res) => {
-    console.log("request")
     // get settings on every request in development
     if (isDev) {
       settings = getSettings()
-      console.log(settings)
     }
     for (const key of Object.keys(settings.content.socials)) {
         let link = settings.content.socials[key]

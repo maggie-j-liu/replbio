@@ -1,5 +1,5 @@
 entrypoint = "index.js"
-run = "./runner.sh"
+run = "node checkPort.js && npm start"
 
 # [interpreter]
 # command = [

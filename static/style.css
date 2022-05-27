@@ -1,5 +1,5 @@
-h1 {
-    color: red;
+html {
+  background-color: #f3f4f6;
 }
 
 main {
@@ -7,7 +7,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 44rem;
+  max-width: 40rem;
   margin-left: auto;
   margin-right: auto;
 }
@@ -21,5 +21,64 @@ main {
 }
 
 .avatar {
+  background-color: white;
   object-fit: cover;
+  border-radius: 50%;
+  border: 8px solid #6d28d9;
+}
+
+.name {
+  text-align: center;
+}
+
+.bio {
+  font-size: 1.5rem;
+  margin-bottom: 0.4em;
+  text-align: center;
+}
+
+.social-link {
+  color: #9ca3af;
+  transition-duration: 150ms;
+}
+
+.social-link:hover {
+  color: #6d28d9;
+}
+
+.links {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  gap: 1rem;
+  padding: 0;
+}
+
+.link {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  font-size: 1.25rem;
+  border-radius: 1.8rem;
+  overflow: hidden;
+  transition-duration: 200ms;
+}
+
+.link:hover {
+  transform: scale(1.05);
+  transition-duration: 150ms;
+}
+
+.link > a {
+  color: inherit;
+  text-decoration: inherit;
+  min-height: 3.6rem;
+  background-color: white;
+  width: 100%;
+  padding: 0.4rem 1rem;
+  
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
