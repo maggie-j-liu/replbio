@@ -1,46 +1,47 @@
 {
-    "content": {
-        "name": "hello",
-        "avatar": "https://github.com/maggie-j-liu.png",
-        "bio": "hello hello hello hello",
-        "links": [
-            {
-                "url": "https://maggieliu.dev",
-                "text": "Check out my website!!"
-            },
-            {
-                "url": "https://github.com/maggie-j-liu",
-                "text": "and my github"
-            }
-        ],
-        "socials": {
-            "replit": "MaggieLiu1",
-            "github": "maggie-j-liu",
-            "email": "email@example.com",
-            "facebook": "f",
-            "twitter": "t",
-            "instagram": "i",
-            "youtube": "y",
-            "twitch": "t",
-            "tiktok": "t",
-            "buymeacoffee": "b",
-            "spotify": "s",
-            "behance": "b",
-            "dribbble": "d",
-            "discord": "d",
-            "medium": "m",
-            "reddit": "r",
-            "soundcloud": "s",
-            "bandcamp": "b",
-            "linkedin": "l",
-            "patreon": "p",
-            "producthunt": "p",
-            "substack": "s",
-            "devto": "d",
-            "hashnode": "h",
-            "website": "w",
-            "kofi": "k",
-            "devpost": "maggieliu"
-        }
+  "content": {
+    "name": "hello",
+    "avatar": "https://github.com/maggie-j-liu.png",
+    "bio": "hello hello hello hello",
+    "links": [
+      {
+        "url": "https://maggieliu.dev",
+        "text": "Check out my website!!"
+      },
+      {
+        "url": "https://github.com/maggie-j-liu",
+        "text": "and my github"
+      }
+    ],
+    "socials": {
+      "github": "maggie-j-liu",
+      "replit": "MaggieLiu1",
+      "gitlab": "maggieliu",
+      "email": "email@example.com",
+      "facebook": "",
+      "twitter": "",
+      "instagram": "",
+      "youtube": "",
+      "twitch": "",
+      "tiktok": "",
+      "buymeacoffee": "",
+      "spotify": "",
+      "behance": "",
+      "dribbble": "",
+      "discord": "725399987869057137",
+      "medium": "",
+      "reddit": "",
+      "soundcloud": "",
+      "bandcamp": "",
+      "linkedin": "",
+      "patreon": "",
+      "producthunt": "mliu",
+      "substack": "",
+      "dev.to": "",
+      "hashnode": "",
+      "website": "maggieliu.dev",
+      "kofi": "",
+      "devpost": "maggieliu"
     }
+  }
 }

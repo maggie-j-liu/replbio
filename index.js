@@ -12,8 +12,8 @@ const getSettings = () => {
     const settingsFile = fs.readFileSync("settings.json", "utf-8")
     s = JSON.parse(settingsFile)
   } catch (e) {
-      console.log(e)
-      throw new Error("Error reading settings.json file and parsing as JSON")
+    console.log(e)
+    throw new Error("Error reading settings.json file and parsing as JSON")
   }
   return s;
 }
@@ -32,27 +32,31 @@ app.set("view engine", "ejs")
 app.use(express.static("static"))
 
 app.get("/", (req, res) => {
-    // get settings on every request in development
-    if (isDev) {
-      settings = getSettings()
+  // get settings on every request in development
+  if (isDev) {
+    settings = getSettings()
+  }
+  for (const key of Object.keys(settings.content.socials)) {
+    let link = settings.content.socials[key]
+    if (link.length === 0 || (!(key in prefixes) && !(key in suffixes))) {
+      delete settings.content.socials[key]
+      continue
     }
-    for (const key of Object.keys(settings.content.socials)) {
-        let link = settings.content.socials[key]
-        if (link.length === 0 || (!(key in prefixes) && !(key in suffixes))) {
-            delete settings.content.socials[key]
-            continue
-        }
-        if (!link.startsWith("http")) {
-            if (key in prefixes) {
-                link = "https://" + prefixes[key] + link;
-            }
-            else if (key in suffixes) {
-                link = "https://" + link + suffixes[key];
-            }
-            settings.content.socials[key] = link;
-        }
+    if (!link.startsWith("http") && key !== "email") {
+      if (key in prefixes) {
+          link = "https://" + prefixes[key] + link;
+      }
+      else if (key in suffixes) {
+          link = "https://" + link + suffixes[key];
+      }
+      settings.content.socials[key] = link;
     }
-    res.render("index.ejs", { ...settings })
+    if (key === "email" && !link.startsWith("mailto:")) {
+      link = "mailto:" + link;
+      settings.content.socials[key] = link;
+    }
+  }
+  res.render("index.ejs", { ...settings })
 })
 
 app.listen(PORT, () => {
