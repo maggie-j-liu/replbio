@@ -1,10 +1,34 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="/reset.css" />
-        <link rel="stylesheet" type="text/css" href="/style.css" />
-    </head>
-    <body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="<%= content.avatar %>" />
+    <title><%= content.name %> | replbio</title>
+    <meta property="og:title" content="<%= content.name %> | replbio" />
+    <meta name="description" content="<%= content.bio %>" />
+    <meta property="og:description" content="<%= content.bio %> | Use replbio to generate a custom link page!" />
+    <meta property="og:image" content="<%= content.avatar %>" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="<%- styles.primary ? styles.primary : '#7c3aed' %>" />
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" type="text/css" href="/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <style>
+      :root {
+        --color-primary: <%- styles.primary ? styles.primary : "#7c3aed" %>;
+        --color-gradient-from: <%- styles.gradient.from ? styles.gradient.from : "#ddd6fe" %>;
+        --color-gradient-to: <%- styles.gradient.to ? styles.gradient.to : "#fbcfe8" %>;
+        --color-bg: <%- styles.background ? styles.background : "#f3f4f6" %>;
+        --color-text: <%- styles.text ? styles.text : "#000000" %>;
+        --color-icons: <%- styles.icons ? styles.icons : "#9ca3af" %>;
+        --color-links: <%- styles.links ? styles.links : "#ffffff" %>;
+        --font: <%- styles.font ? styles.font : 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif' %>;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
       <main>
         <img class="avatar" width="160" height="160" src="<%= content.avatar %>" />
         <h1 class="name"><%= content.name %></h1>
@@ -12,5 +36,9 @@
         <%- include("./partials/socials.ejs"); %>
         <%- include("./partials/links.ejs"); %>
       </main>
-    </body>
+      <footer>
+        made with <a href="https://replit.com/@MaggieLiu1/replbio" target="_blank" rel="noreferrer">replbio</a> | fork to create your own
+      </footer>
+    </div>
+  </body>
 </html>

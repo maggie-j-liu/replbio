@@ -43,5 +43,17 @@
       "kofi": "",
       "devpost": "maggieliu"
     }
+  },
+  "styles": {
+    "primary": "#7c3aed",
+    "gradient": {
+      "from": "#ddd6fe",
+      "to": "#fbcfe8"
+    },
+    "background": "#f3f4f6",
+    "text": "#000000",
+    "icons": "#9ca3af",
+    "links": "#ffffff",
+    "font": "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
   }
 }
