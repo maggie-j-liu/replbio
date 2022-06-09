@@ -2,6 +2,10 @@ import express from "express"
 import ejs from "ejs"
 import fs from "fs"
 import { prefixes, suffixes } from "./utils/socialLinks.js"
+import Client from "@replit/database"
+import cookieParser from "cookie-parser"
+
+const client = new Client()
 
 const isDev = process.env.NODE_ENV === "development"
 let settings
@@ -14,6 +18,27 @@ const getSettings = () => {
   } catch (e) {
     console.log(e)
     throw new Error("Error reading settings.json file and parsing as JSON")
+  }
+  for (const key of Object.keys(s.content.socials)) {
+    let link = s.content.socials[key]
+    if (link.length === 0 || (!(key in prefixes) && !(key in suffixes))) {
+      delete s.content.socials[key]
+      continue
+    }
+
+    if (!link.startsWith("http") && key !== "email") {
+      if (key in prefixes) {
+        link = "https://" + prefixes[key] + link;
+      }
+      else if (key in suffixes) {
+        link = "https://" + link + suffixes[key];
+      }
+      s.content.socials[key] = link;
+    }
+    if (key === "email" && !link.startsWith("mailto:")) {
+      link = "mailto:" + link;
+      s.content.socials[key] = link;
+    }
   }
   return s;
 }
@@ -30,35 +55,40 @@ const app = express()
 app.set("view engine", "ejs")
 
 app.use(express.static("static"))
+app.use(cookieParser())
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  const userId = req.get('X-Replit-User-Id')
+  const userName = req.get('X-Replit-User-Name')
+  console.log(userId, userName)
   // get settings on every request in development
   if (isDev) {
     settings = getSettings()
   }
-  for (const key of Object.keys(settings.content.socials)) {
-    let link = settings.content.socials[key]
-    if (link.length === 0 || (!(key in prefixes) && !(key in suffixes))) {
-      delete settings.content.socials[key]
-      continue
-    }
-    if (!link.startsWith("http") && key !== "email") {
-      if (key in prefixes) {
-          link = "https://" + prefixes[key] + link;
-      }
-      else if (key in suffixes) {
-          link = "https://" + link + suffixes[key];
-      }
-      settings.content.socials[key] = link;
-    }
-    if (key === "email" && !link.startsWith("mailto:")) {
-      link = "mailto:" + link;
-      settings.content.socials[key] = link;
-    }
+  let commentsList;
+  if (settings?.features?.guestbook) {
+    // get guestbook data
+    commentsList = (await client.get("guestbook-list")) ?? []
+    console.log(commentsList)
   }
-  res.render("index.ejs", { ...settings })
+  res.render("index.ejs", {
+    settings,
+    guestBook: commentsList,
+    auth: {
+      userId,
+      userName
+    }
+  })
 })
 
+app.post("/logout", (req, res) => {
+  console.log("POST req to logout")
+  console.log("headers", req.headers, req.cookies)
+  res.clearCookie("REPL_AUTH")
+  res.end()
+})
+
+
 app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`)
+  console.log(`Server is listening on port ${PORT}`)
 })

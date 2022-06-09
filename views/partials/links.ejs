@@ -1,5 +1,6 @@
+<% if (settings?.content?.links) { %>
 <ul class="links">
-<% content.links.forEach((link) => { %>
+<% settings.content.links.forEach((link) => { %>
   <li class="link">
     <a href="<%= link.url %>">
       <%= link.text %>
@@ -7,3 +8,4 @@
   </li>
 <% }) %>
 </ul>
+<% } %>

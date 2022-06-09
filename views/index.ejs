@@ -3,38 +3,45 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="<%= content.avatar %>" />
-    <title><%= content.name %> | replbio</title>
-    <meta property="og:title" content="<%= content.name %> | replbio" />
-    <meta name="description" content="<%= content.bio %>" />
-    <meta property="og:description" content="<%= content.bio %> | Use replbio to generate a custom link page!" />
-    <meta property="og:image" content="<%= content.avatar %>" />
+    <link rel="icon" href="<%= settings?.content?.avatar %>" />
+    <title><%= settings?.content?.name %> | replbio</title>
+    <meta property="og:title" content="<%= settings?.content?.name ? `${settings.content.name} | ` : '' %>replbio" />
+    <meta name="description" content="<%= settings?.content?.bio ?? 'create your own bio page with replbio' %>" />
+    <meta property="og:description" content="<%= settings?.content?.bio %> | Use replbio to generate a custom link page!" />
+    <% if (settings?.content?.avatar) { %>
+      <meta property="og:image" content="<%= settings.content.avatar %>" />
+    <% } %>
     <meta name="twitter:card" content="summary" />
-    <meta name="theme-color" content="<%- styles.primary ? styles.primary : '#7c3aed' %>" />
+    <meta name="theme-color" content="<%- settings?.styles?.primary ? settings.styles.primary : '#7c3aed' %>" />
     <meta property="og:type" content="website" />
     <link rel="stylesheet" type="text/css" href="/reset.css" />
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <style>
       :root {
-        --color-primary: <%- styles.primary ? styles.primary : "#7c3aed" %>;
-        --color-gradient-from: <%- styles.gradient.from ? styles.gradient.from : "#ddd6fe" %>;
-        --color-gradient-to: <%- styles.gradient.to ? styles.gradient.to : "#fbcfe8" %>;
-        --color-bg: <%- styles.background ? styles.background : "#f3f4f6" %>;
-        --color-text: <%- styles.text ? styles.text : "#000000" %>;
-        --color-icons: <%- styles.icons ? styles.icons : "#9ca3af" %>;
-        --color-links: <%- styles.links ? styles.links : "#ffffff" %>;
-        --font: <%- styles.font ? styles.font : 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif' %>;
+        --color-primary: <%- settings?.styles?.primary ? settings.styles.primary : "#7c3aed" %>;
+        --color-gradient-from: <%- settings?.styles?.gradient?.from ? settings.styles.gradient.from : "#ddd6fe" %>;
+        --color-gradient-to: <%- settings?.styles?.gradient?.to ? settings.styles.gradient.to : "#fbcfe8" %>;
+        --color-bg: <%- settings?.styles?.background ? settings.styles.background : "#f3f4f6" %>;
+        --color-text: <%- settings?.styles?.text ? settings.styles.text : "#000000" %>;
+        --color-icons: <%- settings?.styles?.icons ? settings.styles.icons : "#9ca3af" %>;
+        --color-links: <%- settings?.styles?.links ? settings.styles.links : "#ffffff" %>;
+        --font: <%- settings?.styles?.font ? settings.styles.font : 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif' %>;
       }
     </style>
   </head>
   <body>
     <div class="container">
       <main>
-        <img class="avatar" width="160" height="160" src="<%= content.avatar %>" />
-        <h1 class="name"><%= content.name %></h1>
-        <span class="bio"><%= content.bio %></span>
+        <% if (settings?.content?.avatar) { %>
+          <img class="avatar" width="160" height="160" src="<%= settings.content.avatar %>" />
+        <% } %>
+        <h1 class="name"><%= settings?.content?.name ?? "" %></h1>
+        <span class="bio"><%= settings?.content?.bio ?? "" %></span>
         <%- include("./partials/socials.ejs"); %>
         <%- include("./partials/links.ejs"); %>
+        <% if (settings?.features?.guestbook) { %>
+          <%- include("./partials/guestbook.ejs"); %>
+        <% } %>
       </main>
       <footer>
         made with <a href="https://replit.com/@MaggieLiu1/replbio" target="_blank" rel="noreferrer">replbio</a> | fork to create your own

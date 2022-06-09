@@ -1,0 +1,18 @@
+<div>
+  <h2>Guestbook</h2>
+  <div>
+    <% if (!auth.userId) { %>
+      <script authed="location.reload()" src="https://auth.util.repl.co/script.js"></script>
+    <% } else { %>
+      <button type="button" onclick="logout()">Logout</button>
+    <% } %>
+  </div>
+</div>
+<script>
+  const logout = async (e) => {
+    await fetch("/logout", {
+      method: "POST",
+      credentials: 'include'
+    })
+  }
+</script>
