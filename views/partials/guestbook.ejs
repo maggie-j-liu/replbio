@@ -1,18 +1,61 @@
-<div>
-  <h2>Guestbook</h2>
-  <div>
-    <% if (!auth.userId) { %>
-      <script authed="location.reload()" src="https://auth.util.repl.co/script.js"></script>
-    <% } else { %>
-      <button type="button" onclick="logout()">Logout</button>
-    <% } %>
+<div class="guestbook">
+  <div class="guestbook-title-section">
+    <h2>Guestbook</h2>
+    <div>
+      <% if (!auth.userId) { %>
+        <script authed="location.reload()" src="https://auth.util.repl.co/script.js"></script>
+      <% } else { %>
+        <button class="replit-auth-button" type="button" onclick="logout()">Logout</button>
+      <% } %>
+    </div>
   </div>
-</div>
+  <div>
+    <h3>Sign <%= settings?.content?.name ? `${settings.content.name}'s` : "the" %> guestbook!</h3>
+      <div class="comment-form">
+        <input placeholder="type your message" type="text" id="comment_input" onkeydown="handleKey(event)" />
+        <button class="submit-button" type="button" onclick="submit(event)">Submit</button>
+      </div>
+  </div>
+  <div class="comments">
+    <% guestBook.forEach((comment) => { %>
+      <div class="comment">
+        <p class="comment-text"><%= comment.comment %></p>
+        <div class="comment-info">
+          <a href="<%= `https://replit.com/@${comment.userName}` %>"><%= comment.userName %></a>
+          <div>&bull;</div>
+          <div><%= comment.time %></div>
+        </div>
+      </div> 
+    <% }) %>
+  </div>
 <script>
   const logout = async (e) => {
     await fetch("/logout", {
-      method: "POST",
-      credentials: 'include'
+      method: "POST"
     })
+    location.reload()
+  }
+  const submit = async (e) => {
+    e.preventDefault()
+    console.log(e)
+    const input = document.getElementById("comment_input")
+    const comment = input.value;
+    console.log(input.value)
+    input.value = ""
+    console.log("comment", comment)
+    await fetch("/submit", {
+      method: "POST",
+      body: JSON.stringify({
+        comment
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+  }
+  const handleKey = (e) => {
+    if (e.key === "Enter") {
+      submit(e)
+    }
   }
 </script>

@@ -16,6 +16,9 @@
     <meta property="og:type" content="website" />
     <link rel="stylesheet" type="text/css" href="/reset.css" />
     <link rel="stylesheet" type="text/css" href="/style.css" />
+    <% if (settings?.features?.guestbook) { %>
+      <link rel="stylesheet" type="text/css" href="/guestbook.css" />
+    <% } %>
     <style>
       :root {
         --color-primary: <%- settings?.styles?.primary ? settings.styles.primary : "#7c3aed" %>;

@@ -3,7 +3,7 @@ import ejs from "ejs"
 import fs from "fs"
 import { prefixes, suffixes } from "./utils/socialLinks.js"
 import Client from "@replit/database"
-import cookieParser from "cookie-parser"
+import { nanoid } from "nanoid"
 
 const client = new Client()
 
@@ -55,7 +55,7 @@ const app = express()
 app.set("view engine", "ejs")
 
 app.use(express.static("static"))
-app.use(cookieParser())
+app.use(express.json())
 
 app.get("/", async (req, res) => {
   const userId = req.get('X-Replit-User-Id')
@@ -65,11 +65,23 @@ app.get("/", async (req, res) => {
   if (isDev) {
     settings = getSettings()
   }
-  let commentsList;
+  let commentsList = [];
   if (settings?.features?.guestbook) {
     // get guestbook data
-    commentsList = (await client.get("guestbook-list")) ?? []
-    console.log(commentsList)
+    const commentIds = (await client.get("guestbook-list")) ?? []
+    // console.log(commentIds)
+    for (const id of commentIds) {
+      commentsList.push(client.get(id))
+    }
+    commentsList = await Promise.all(commentsList)
+    commentsList = commentsList.map((c) => {
+      const date = new Date(c.time)
+      const datePart = date.toLocaleDateString("en-US", { dateStyle: "medium" })
+      const timePart = date.toLocaleTimeString("en-US", { timeStyle: "short" })
+      c.time = `${datePart} at ${timePart}`
+      return c;
+    })
+    // console.log(commentsList)
   }
   res.render("index.ejs", {
     settings,
@@ -82,12 +94,38 @@ app.get("/", async (req, res) => {
 })
 
 app.post("/logout", (req, res) => {
-  console.log("POST req to logout")
-  console.log("headers", req.headers, req.cookies)
-  res.clearCookie("REPL_AUTH")
+  res.clearCookie("REPL_AUTH", {
+    domain: req.headers.host,
+    path: "/"
+  })
   res.end()
 })
 
+app.post("/submit", async (req, res) => {
+  console.log(req.body)
+  const userId = req.get("X-Replit-User-Id")
+  const userName = req.get("X-Replit-User-Name")
+  if (!userId || !userName) {
+    res.status(401).end()
+    return
+  }
+  if (!req.body.comment) {
+    res.status(400).send("No comment provided")
+  }
+  const commentsList = (await client.get("guestbook-list")) ?? []
+  const id = nanoid()
+  commentsList.push(id)
+  await Promise.all([
+    client.set("guestbook-list", commentsList),
+    client.set(id, {
+        userId,
+        userName,
+        comment: req.body.comment,
+        time: Date.now()
+      })
+  ])
+  res.end()
+})
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`)

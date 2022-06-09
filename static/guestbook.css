@@ -1,0 +1,78 @@
+.guestbook {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.guestbook-title-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.guestbook input {
+  flex-grow: 1;
+  padding: 0 0.25rem;
+  outline: 2px #9ca3af solid;
+  border-radius: 0.25rem;
+}
+.guestbook input:focus {
+  outline: 2px var(--color-primary) solid;
+}
+
+.replit-auth-button,
+.submit-button {
+  background-color: #4b5563;
+  color: white;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.replit-auth-button:hover,
+.submit-button:hover {
+  background-color: black;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.comment-text {
+  font-size: 1.125rem;
+}
+
+.comment-info * {
+  opacity: 0.5;
+}
+
+.comment-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.comment-info > a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+}
+
+.comment-info > a:hover {
+  text-decoration: underline;
+  color: var(--color-primary);
+  opacity: 1;
+}
