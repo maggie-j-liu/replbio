@@ -17,11 +17,19 @@ main {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 3rem;
   align-items: center;
   max-width: 40rem;
   margin-left: auto;
   margin-right: auto;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
 }
 
 .socials {
@@ -42,6 +50,7 @@ main {
 .name {
   text-align: center;
   line-height: 1em;
+  font-size: 1.625rem;
 }
 
 .bio {

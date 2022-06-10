@@ -58,5 +58,8 @@
   },
   "features": {
     "guestbook": true
+  },
+  "guestbook": {
+    "adminUsername": "maggieliu1"
   }
 }

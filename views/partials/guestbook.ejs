@@ -2,20 +2,25 @@
   <div class="guestbook-title-section">
     <h2>Guestbook</h2>
     <div>
-      <% if (!auth.userId) { %>
-        <script authed="location.reload()" src="https://auth.util.repl.co/script.js"></script>
-      <% } else { %>
-        <button class="replit-auth-button" type="button" onclick="logout()">Logout</button>
+      <% if (auth.userId) { %>
+        <button class="button" type="button" onclick="logout()">Logout</button>
       <% } %>
     </div>
   </div>
-  <div>
-    <h3>Sign <%= settings?.content?.name ? `${settings.content.name}'s` : "the" %> guestbook!</h3>
-      <div class="comment-form">
-        <input placeholder="type your message" type="text" id="comment_input" onkeydown="handleKey(event)" />
-        <button class="submit-button" type="button" onclick="submit(event)">Submit</button>
-      </div>
+        
+  <div class="guestbook-sign-section">
+    <div class="sign-message">Sign <%= settings?.content?.name ? `${settings.content.name}'s` : "the" %> guestbook!</div>
+    
+    <div class="comment-form">
+      <% if (auth.userId) { %>
+        <input maxlength="500" placeholder="type your message..." type="text" id="comment_input" onkeydown="handleKey(event)" oninput="handleInput(event)" />
+        <button disabled id="submit_button" class="button" type="button" onclick="submit(event)">Submit</button>
+      <% } else { %>
+        <script authed="location.reload()" src="https://auth.util.repl.co/script.js"></script>
+      <% } %>
+    </div>
   </div>
+        
   <div class="comments">
     <% guestBook.forEach((comment) => { %>
       <div class="comment">
@@ -24,6 +29,14 @@
           <a href="<%= `https://replit.com/@${comment.userName}` %>"><%= comment.userName %></a>
           <div>&bull;</div>
           <div><%= comment.time %></div>
+          <% if ((auth.userId && comment.userId === auth.userId) 
+                || (auth.userName 
+                    && settings?.guestbook?.adminUsername 
+                    && settings.guestbook.adminUsername.toLowerCase() === auth.userName.toLowerCase()
+                )) { %>
+            <div>&bull;</div>
+            <button class="delete-button" onclick="deleteComment(event, '<%= comment.id %>')">Delete</button>
+          <% } %>
         </div>
       </div> 
     <% }) %>
@@ -41,6 +54,9 @@
     const input = document.getElementById("comment_input")
     const comment = input.value;
     console.log(input.value)
+    if (!comment) return;
+    const button = document.getElementById("submit_button")
+    button.disabled = true
     input.value = ""
     console.log("comment", comment)
     await fetch("/submit", {
@@ -52,10 +68,33 @@
         "Content-Type": "application/json"
       }
     })
+    location.reload()
   }
+
   const handleKey = (e) => {
     if (e.key === "Enter") {
       submit(e)
     }
+  }
+  const handleInput = (e) => {
+    const button = document.getElementById("submit_button")
+    if (e.target.value.length === 0) {
+      button.disabled = true
+    } else {
+      button.disabled = false
+    }
+  }
+  const deleteComment = async (e, id) => {
+    e.preventDefault()
+    await fetch("/deleteComment", {
+      method: "POST",
+      body: JSON.stringify({
+        id
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    location.reload()
   }
 </script>

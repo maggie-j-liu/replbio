@@ -60,7 +60,6 @@ app.use(express.json())
 app.get("/", async (req, res) => {
   const userId = req.get('X-Replit-User-Id')
   const userName = req.get('X-Replit-User-Name')
-  console.log(userId, userName)
   // get settings on every request in development
   if (isDev) {
     settings = getSettings()
@@ -68,13 +67,14 @@ app.get("/", async (req, res) => {
   let commentsList = [];
   if (settings?.features?.guestbook) {
     // get guestbook data
-    const commentIds = (await client.get("guestbook-list")) ?? []
+    const commentIds = ((await client.list("gb")) ?? []).sort().reverse()
     // console.log(commentIds)
     for (const id of commentIds) {
       commentsList.push(client.get(id))
     }
     commentsList = await Promise.all(commentsList)
-    commentsList = commentsList.map((c) => {
+    commentsList = commentsList.map((c, idx) => {
+      c.id = commentIds[idx]
       const date = new Date(c.time)
       const datePart = date.toLocaleDateString("en-US", { dateStyle: "medium" })
       const timePart = date.toLocaleTimeString("en-US", { timeStyle: "short" })
@@ -102,7 +102,6 @@ app.post("/logout", (req, res) => {
 })
 
 app.post("/submit", async (req, res) => {
-  console.log(req.body)
   const userId = req.get("X-Replit-User-Id")
   const userName = req.get("X-Replit-User-Name")
   if (!userId || !userName) {
@@ -111,19 +110,43 @@ app.post("/submit", async (req, res) => {
   }
   if (!req.body.comment) {
     res.status(400).send("No comment provided")
+    return
   }
-  const commentsList = (await client.get("guestbook-list")) ?? []
-  const id = nanoid()
-  commentsList.push(id)
-  await Promise.all([
-    client.set("guestbook-list", commentsList),
-    client.set(id, {
-        userId,
-        userName,
-        comment: req.body.comment,
-        time: Date.now()
-      })
-  ])
+  if (req.body.comment.length > 500) {
+    res.status(400).send("Comment too long")
+    return
+  }
+  const time = Date.now();
+  const id = `gb${time}${nanoid()}`
+  await client.set(id, {
+    userId,
+    userName,
+    comment: req.body.comment,
+    time
+  })
+  res.end()
+})
+
+app.post("/deleteComment", async (req, res) => {
+  const userId = req.get("X-Replit-User-Id")
+  const userName = req.get("X-Replit-User-Name")
+  if (!userId || !userName) {
+    res.status(401).end()
+    return
+  }
+  if (!req.body.id) {
+    res.status(400).send("No comment provided")
+  }
+  const comment = await client.get(req.body.id)
+  if (comment === null) {
+    res.status(400).send("No comment with that ID found")
+    return
+  }
+  if (comment.userId != userId && settings?.guestbook?.adminUsername.toLowerCase() != userName.toLowerCase()) {
+    res.status(401).end()
+    return
+  }
+  await client.delete(req.body.id)
   res.end()
 })
 

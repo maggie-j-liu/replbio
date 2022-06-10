@@ -35,15 +35,19 @@
   <body>
     <div class="container">
       <main>
-        <% if (settings?.content?.avatar) { %>
-          <img class="avatar" width="160" height="160" src="<%= settings.content.avatar %>" />
-        <% } %>
-        <h1 class="name"><%= settings?.content?.name ?? "" %></h1>
-        <span class="bio"><%= settings?.content?.bio ?? "" %></span>
-        <%- include("./partials/socials.ejs"); %>
-        <%- include("./partials/links.ejs"); %>
+        <section>
+          <% if (settings?.content?.avatar) { %>
+            <img class="avatar" width="160" height="160" src="<%= settings.content.avatar %>" />
+          <% } %>
+          <h1 class="name"><%= settings?.content?.name ?? "" %></h1>
+          <span class="bio"><%= settings?.content?.bio ?? "" %></span>
+          <%- include("./partials/socials.ejs"); %>
+          <%- include("./partials/links.ejs"); %>
+        </section>
         <% if (settings?.features?.guestbook) { %>
-          <%- include("./partials/guestbook.ejs"); %>
+          <section>
+            <%- include("./partials/guestbook.ejs"); %>
+          </section>
         <% } %>
       </main>
       <footer>
