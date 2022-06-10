@@ -59,3 +59,25 @@ Customize colors and the font under the `styles` key. The exact settings are des
   "font": "Font used on the page"
 }
 ```
+
+### Features
+
+Replbio also offers a variety of features to easily customize your bio page. They are described below:
+
+#### Guestbook
+
+To add a guestbook (a section where visitors can leave you messages) to your replbio, enable the guestbook feature:
+```json
+"features": {
+  "guestbook": true
+}
+```
+
+Visitors will be able to log in with Replit to view the messages, as well as leave their own message. 
+If you configure an admin (yourself), you'll be able to delete any messages. 
+To configure the admin, add your Replit username to the `guestbook.adminUsername` section of the settings.
+```json
+"guestbook": {
+  "adminUsername": "Your Replit username"
+}
+```
