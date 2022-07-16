@@ -1,10 +1,14 @@
 # replbio
 
-Replbio is a template for making a bio page easily. Add your name, avatar, and all your links to the page for easy sharing!
+Replbio is a template for making a bio page easily.
+Add your name, avatar, and all your links to the page for easy sharing!
 
 ## Instructions
 
-Creating your own replbio is easy -- just fork the [replbio repl](https://replit.com/@MaggieLiu1/replbio). All you need to do is edit the `settings.json` file. This file is written in [JSON format](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON). Use the `settings.json` file for simple customizations, but more advanced customizations are possible by editing the code directly.
+Creating your own replbio is easy -- just fork the [replbio repl](https://replit.com/@MaggieLiu1/replbio).
+All you need to do is edit the `settings.json` file.
+This file is written in [JSON format](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON).
+Use the `settings.json` file for simple customizations, but more advanced customizations are possible by editing the code directly.
 
 Let's take a look at the settings in `settings.json`:
 
@@ -19,7 +23,9 @@ These are all available to edit under the `content` key.
 ```
 
 ### Socials
-These are displayed as social icons right under your name and bio. There are predefined social icons for a lot of social sites, but feel free to comment on the [repl](https://replit.com/@MaggieLiu1/replbio) to request other social sites. Edit these under the `content.socials` key; the key is the social site name and the value is your username on the site.
+These are displayed as social icons right under your name and bio.
+There are predefined social icons for a lot of social sites, but feel free to comment on the [repl](https://replit.com/@MaggieLiu1/replbio) to request other social sites.
+Edit these under the `content.socials` key; the key is the social site name and the value is your username on the site.
 ```json 
 "content": {
   "socials": {
@@ -31,7 +37,9 @@ These are displayed as social icons right under your name and bio. There are pre
 Note: for Discord, the value should be your Discord user ID, not your username.
 
 ### Links
-The links are added as an array in the `content.links` key. They are displayed under the social links. Each link is an object with a `url` and `text`; the `url` is what the link links to, while the `text` is displayed on the page.
+The links are added as an array in the `content.links` key.
+They are displayed under the social links.
+Each link is an object with a `url` and `text`; the `url` is what the link links to, while the `text` is displayed on the page.
 ```json
 "content": {
   "links": [
@@ -44,7 +52,8 @@ The links are added as an array in the `content.links` key. They are displayed u
 ```
 
 ### Styles
-Customize colors and the font under the `styles` key. The exact settings are described below.
+Customize colors and the font under the `styles` key.
+The exact settings are described below.
 ```json
 "styles": {
   "primary": "Primary color used for the avatar border and the hover effect for socials.",
@@ -62,7 +71,8 @@ Customize colors and the font under the `styles` key. The exact settings are des
 
 ### Features
 
-Replbio also offers a variety of features to easily customize your bio page. They are described below:
+Replbio also offers a variety of features to easily customize your bio page.
+They are described below:
 
 #### Guestbook
 
